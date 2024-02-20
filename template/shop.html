@@ -198,6 +198,7 @@
                             </div>
                         </div>
                     </div>
+                    {% if product %}
                     {% for pro in product %}
                     <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                         <div class="card product-item border-0 mb-4">
@@ -219,6 +220,9 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <h1 class="font-weight-semi-bold text-uppercase mb-3">No result found. Please try again.</h1>
+                    {% endif %}
                     
                     <div class="col-12 pb-1">
                         <nav aria-label="Page navigation">
