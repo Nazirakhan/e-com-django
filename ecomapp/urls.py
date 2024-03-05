@@ -24,6 +24,7 @@ urlpatterns = [
     path("",include('ecom.urls')),
     path("shop/",include('store.urls')),
     path("cart/",include('Carts.urls')),
+    path("accounts/",include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 # ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
