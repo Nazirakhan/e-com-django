@@ -1,0 +1,11 @@
+{% load static %}
+{% if messages %}
+    {% for message in messages %}
+    <div id ="message">
+        <h4><p {% if message.tags %} style="color:green; margin-left: 80px;" class="alert alert-{{ message.tags }}" {% endif %} role="'alert">
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            {{ message }}
+        </p></h4>
+    </div>
+    {% endfor %}
+{% endif %}
