@@ -139,12 +139,16 @@
                             <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
+                            {% if user.id is None %}
                             <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
                             <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
+                            {% else %}
+                            <a href="#" class="nav-item nav-link">{{user.first_name}}</a>
+                            <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
+                            {% endif %}
                         </div>
                     </div>
                 </nav>
-
 {% block content %}
 
 
