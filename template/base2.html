@@ -143,7 +143,13 @@
                             <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
                             <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
                             {% else %}
-                            <a href="#" class="nav-item nav-link">{{user.first_name}}</a>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{user.first_name}}</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="{% url 'dashboard' %}" class="dropdown-item">Dashboard</a>
+                                    <a href="#" class="dropdown-item">Profile</a>
+                                </div>
+                            </div>
                             <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
                             {% endif %}
                         </div>
