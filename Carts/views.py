@@ -126,3 +126,39 @@ def cart(request,total=0, quantity = 0, cart_items=None):
     }
 
     return render(request, 'cart.html', context)
+
+
+
+def checkout(request, total=0, quantity = 0, cart_items=None):
+    cgst = 0  # Define cgst with default value
+    sgst = 0  # Define sgst with default value
+    grand_total = 0  # Define grand_total with default value
+    shipping = 0  # Define shipping with default value
+    try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_items = CartItem.objects.filter(cart=cart,is_active=True)
+        for cart_item in cart_items:
+            total = total + (cart_item.product.price * cart_item.quantity)
+            quantity = quantity + cart_item.quantity
+        cgst = (9 * total)/100
+        sgst = (9 * total)/100
+        shipping = 50
+        if total >= 1500:
+            grand_total = total + cgst + sgst
+        else:
+            grand_total = total + cgst + sgst + shipping
+
+    except ObjectDoesNotExist:
+        pass
+
+    context={
+        'total':total,
+        'quantity':quantity,
+        'cart_items':cart_items,
+        'cgst': cgst,
+        'sgst': sgst,
+        'grand_total': grand_total,
+        'shipping': shipping,
+    }
+
+    return render(request,'checkout.html',context)
