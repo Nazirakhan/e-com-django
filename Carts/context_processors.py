@@ -7,7 +7,6 @@ def counter(request):
         return {}
     try:
         cart = Cart.objects.filter(cart_id=_cart_id(request))
-        # current_user = request.user
         if request.user.is_authenticated:
             cart_items = CartItem.objects.all().filter(user=request.user)
         else:
@@ -17,5 +16,3 @@ def counter(request):
     except Cart.DoesNotExist:
         cart_count = 0
     return dict(cart_count=cart_count)
-
-# user.is_authenticated
