@@ -1,0 +1,151 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+            <h1 class="font-weight-semi-bold mb-3">Review Your Order and Make Payment</h1>
+            
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+<!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+                        <div class="col-md-6">
+                            <p class="mb-0 font-weight-semi-bold">{{order.full_name}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0">{{order.email}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0">{{order.phone}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0">{{order.full_address}}, {{order.city}}, {{order.zip_code}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0">{{order.state}}, {{order.country}}</p>
+                        </div>
+                    
+                </div>
+                <h4 class="font-weight-semi-bold mb-4">Review Products</h4>
+                <div class="col-lg-12 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Attribute</th>
+                            <th>Quantity</th>
+                            <th>Price Each</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        
+                        {% for cart_item in cart_items %}
+                        
+                        <tr>
+                            <td class="align-middle"><img src="{{ cart_item.product.images.url }}" alt="" style="width: 50px;"> <a href="{{cart_item.product.get_url}}">{{cart_item.product.product_name}}</a></td>
+                            <td class="align-middle">
+                            {% if cart_item.variations.all %}
+                                {% for item in cart_item.variations.all %}
+                                        <small class="pt-1"><strong>{{item.variation_category | capfirst }}</strong></small> : <small>{{item.variation_value | capfirst }}</small><br>
+                                {% endfor %}
+                            {% endif %}
+                            </td>                          
+                            <td class="align-middle">
+                                {{cart_item.quantity}}
+                            </td>
+                            <td class="align-middle">&#8360;. {{cart_item.product.price}}</td>
+                        </tr>
+                        
+                        {% endfor %}
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="font-weight-medium mb-3">Products</h5>
+                        {% for cart_item in cart_items %}
+                        <div class="d-flex justify-content-between">
+                            <p>{{cart_item.product.product_name}}</p>
+                            <p>{{cart_item.quantity}}</p>
+                            <p>&#8360;. {{cart_item.sub_total}}</p>
+                        </div>
+                        {% endfor %}
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">&#8360;. {{total}}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Tax</h6>
+                            <h6 class="font-weight-medium">&#8360;. {{tax}}</h6>
+                        </div>
+                        {% if total <= 1500 %}
+                            {% if total != 0 %}    
+                            <div class="d-flex justify-content-between">
+                                <h6 class="font-weight-medium">Shipping</h6>
+                                <h6 class="font-weight-medium">&#8360;. {{shipping}}</h6>
+                            </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="d-flex justify-content-between">
+                                <h6 class="font-weight-medium">Shipping</h6>
+                                <h6 class="font-weight-medium">Free Shipping</h6>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">&#8360;. {{grand_total | floatformat:2 }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
+                                <label class="custom-control-label" for="paypal">Paypal</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
+                                <label class="custom-control-label" for="directcheck">Direct Check</label>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
+                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Make Payment</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Checkout End -->
+
+{% endblock %}
