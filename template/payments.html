@@ -139,13 +139,59 @@
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Make Payment</button>
+                        <div id="paypal-button-container"></div>
+                        {% comment %} <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Make Payment</button> {% endcomment %}
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
     <!-- Checkout End -->
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=ATfNo-XERFlfu17h9hno2xoM30y6_5UsLE6Vf2jD905v4stJrthYYT2oQtlP3q4x1Y4AHhW8RjTRGg65&currency=USD" data-namespace="paypal_sdk"></script>
+    <script>
+
+        var amt = {{grand_total}}
+        var inrtousd = amt/83.59
+        var conv = inrtousd.toFixed(2)
+
+        // let floatNumber = 3.14159
+        // let formattedNumber = floatNumber.toFixed(2) // Keeps float format up to 2 decimal places
+        // console.log(formattedNumber)
+
+        console.log(amt)
+        console.log(conv)
+        // Render the PayPal button into #paypal-button-container
+        paypal_sdk.Buttons({
+
+            style: {
+                color:  'blue',
+                shape:  'rect',
+                label:  'pay',
+                height: 40
+            },
+            
+            // Set up the transaction
+            createOrder:function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: conv,
+                        }
+                    }]
+                });
+            },
+
+            // Call your server to finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    console.log(details)
+                    // Show a success message to the buyer
+                    window.alert('Transaction completed by'+' '+ details.payer.name.given_name + '!');
+                });
+            }
+
+        }).render('#paypal-button-container');
+    </script>
 
 {% endblock %}
