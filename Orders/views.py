@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from Carts.models import CartItem
 from .forms import OrderForm
 from .models import Order, Payment, OrderProduct
+from store.models import Product
 import datetime
 import json
 # Create your views here.
@@ -47,6 +48,11 @@ def payments(request):
         orderproduct = OrderProduct.objects.get(id = orderproduct.id)
         orderproduct.variations.set(product_variation)
         orderproduct.save()
+
+    # reduce the quantity of sold products
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
 
 
     
