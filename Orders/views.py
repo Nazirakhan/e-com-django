@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from Carts.models import CartItem
 from .forms import OrderForm
 from .models import Order, Payment, OrderProduct
@@ -71,9 +71,15 @@ def payments(request):
     send_email.content_subtype = "html"
     send_email.send()
 
+    # send order number and transactionID back to sendData method using JsonResponse
+    data = {
+        'orderID':order.order_number,
+        'transactionID':payment.payment_id,
+    }
+    return JsonResponse(data)
 
     
-    return render(request, 'payments.html')
+    # return render(request, 'payments.html')
 
 def place_order(request,total=0, quantity = 0):
     current_user = request.user
@@ -146,3 +152,5 @@ def place_order(request,total=0, quantity = 0):
         return redirect('checkout')
     
 
+def order_complete(request):
+    return render(request,'ordercomplete.html')
