@@ -1,0 +1,106 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <style>
+        .content-table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            min-width: 400px;
+        }
+        .content-table thead tr {
+            background-color: #d19c97;
+            color: black;
+            text-align: left;
+            font-weight: bold;
+        }
+        .content-table th,
+        .content-table td {
+            padding: 12px 15px;
+        }
+        .content-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        .content-table tbody tr:nth-of-type(even){
+            background-color: #f3f3f3;
+        }
+        .content-table tbody tr:last-of-type{
+            background-color: 2px solid #009879;
+        }
+        p{
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <p>Hi, <h3>{{ user.first_name }}</h3></p>
+
+    <p>Your order has been received.</p>
+    <p><span>Order Number:</span> {{ order.order_number }}</p>
+    <p><span>Transaction ID:</span> {{ order.payment }}</p>
+    <p><span>Phone No:</span> {{ order.phone }}</p>
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <img src="{{ item.product.images.url }}" alt="" style="width: 50px;">
+                </td>
+                <td>{{ item.product.product_name }}</td>
+                <td>{% if item.variations.all %}
+                        {% for var in item.variations.all %}
+                         <small>{{var.variation_category | capfirst }}</small>: <small>{{var.variation_value | capfirst }}</small><br> 
+                        {% endfor %}
+                    {% endif %}
+                </td>
+                <td>{{ item.quantity }}</td>
+                <td>&#8360;. {{ item.product.price }}</td>
+                <td>&#8360;. {{item.sub_total}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="5" style="text-align: end; font-weight: bold;">Tax:</td>
+                <td>&#8360;. {{ order.tax }}</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: end; font-weight: bold;">Total Amount:</td>
+                <td>&#8360;. {{ order.order_total | floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: end; font-weight: bold;">Payment Method:</td>
+                <td style="color: blue;">{{ order.payment.payment_method }}</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: end; font-weight: bold;">Payment Status:</td>
+                <td style="color: #009879;">{{ order.payment.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><span style="font-weight: bolder;">Shipping Address:</span></p>
+    <p><span>Address:</span> {{ order.address_line_1 }}</p>
+    <p><span>Address:</span> {{ order.address_line_2 }}</p>
+    <p><span>City:</span> {{ order.city }}</p>
+    <p><span>State:</span> {{ order.state }}</p>
+    <p><span>Country:</span> {{ order.country }}</p>
+    <p><span>PIN:</span> {{ order.zip_code }}</p>
+
+    <p>If you think it's not you, ignore this email.</p>
+</body>
+</html>
+{% endautoescape %}
