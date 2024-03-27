@@ -38,6 +38,7 @@ class Order(models.Model):
     zip_code       = models.IntegerField(default=751002)
     order_note     = models.CharField(max_length=200,blank=True)
     total          = models.FloatField()
+    shipping       = models.IntegerField(default=0)
     order_total    = models.FloatField()
     tax            = models.FloatField()
     status         = models.CharField(max_length=20, choices=STATUS, default='New')  
@@ -70,3 +71,6 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return self.product.product_name
+    
+    def get_total(self):
+        return self.product.price * self.quantity

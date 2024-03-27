@@ -63,8 +63,8 @@
                 </td>
                 <td>{{ item.product.product_name }}</td>
                 <td>{% if item.variations.all %}
-                        {% for var in item.variations.all %}
-                         <small>{{var.variation_category | capfirst }}</small>: <small>{{var.variation_value | capfirst }}</small><br> 
+                        {% for i in item.variations.all %}
+                                <span><small class="pt-1"><strong>{{i.variation_category | capfirst }}</strong></small> : <small>{{i.variation_value | capfirst }}</small></span>
                         {% endfor %}
                     {% endif %}
                 </td>
@@ -78,6 +78,10 @@
                 <td>&#8360;. {{ order.tax }}</td>
             </tr>
             <tr>
+                <td colspan="5" style="text-align: end; font-weight: bold;">Shipping:</td>
+                <td>&#8360;. {{ order.shipping }}</td>
+            </tr>
+            <tr>
                 <td colspan="5" style="text-align: end; font-weight: bold;">Total Amount:</td>
                 <td>&#8360;. {{ order.order_total | floatformat:2 }}</td>
             </tr>
@@ -87,18 +91,15 @@
             </tr>
             <tr>
                 <td colspan="5" style="text-align: end; font-weight: bold;">Payment Status:</td>
-                <td style="color: #009879;">{{ order.payment.status }}</td>
+                <td style="color: #009879; font-weight: bold;">{{ order.payment.status }}</td>
             </tr>
         </tbody>
     </table>
 
     <p><span style="font-weight: bolder;">Shipping Address:</span></p>
-    <p><span>Address:</span> {{ order.address_line_1 }}</p>
-    <p><span>Address:</span> {{ order.address_line_2 }}</p>
-    <p><span>City:</span> {{ order.city }}</p>
-    <p><span>State:</span> {{ order.state }}</p>
-    <p><span>Country:</span> {{ order.country }}</p>
-    <p><span>PIN:</span> {{ order.zip_code }}</p>
+    <p> {{ order.address_line_1 }} ,{{ order.address_line_2 }} </p>
+    <p>{{ order.city }} , {{ order.state }}</p>
+    <p><span>PIN:</span> {{ order.zip_code }}, {{ order.country }} </p>
 
     <p>If you think it's not you, ignore this email.</p>
 </body>

@@ -101,10 +101,10 @@ def place_order(request,total=0, quantity = 0):
     cgst = (9 * total)/100
     sgst = (9 * total)/100
     tax = cgst + sgst
-    shipping = 50
     if total >= 1500:
         grand_total = total + cgst + sgst
     else:
+        shipping = 50
         grand_total = total + cgst + sgst + shipping
     
     if request.method == "POST":
@@ -124,6 +124,7 @@ def place_order(request,total=0, quantity = 0):
             data.zip_code       = form.cleaned_data['zip_code']
             data.order_note     = form.cleaned_data['order_note']
             data.total          = total
+            data.shipping       = shipping
             data.order_total    = grand_total
             data.tax            = tax
             data.ip             = request.META.get('REMOTE_ADDR')
@@ -146,6 +147,7 @@ def place_order(request,total=0, quantity = 0):
                 'total': total,
                 'tax': tax,
                 'grand_total': grand_total,
+                'shipping': shipping,
             }
             return render(request,'payments.html',context)
     else:
@@ -153,4 +155,28 @@ def place_order(request,total=0, quantity = 0):
     
 
 def order_complete(request):
-    return render(request,'ordercomplete.html')
+    orderID = request.GET.get('orderID')
+    transactionID = request.GET.get('transactionID')
+    count = 0
+    try:
+        order = Order.objects.get(order_number=orderID, is_ordered=True)
+        ordered_products = OrderProduct.objects.filter(order_id=order.id)
+        payment = Payment.objects.get(payment_id = transactionID)
+
+        product_total = 0
+        for product in ordered_products:
+            product_total = product_total + (product.product_price * product.quantity)
+        
+        context = {
+            'order':order,
+            'ordered_products' : ordered_products,
+            'transactionID': payment.payment_id,
+            'status': payment.status,
+            'payment': payment,
+            'count':count,
+            'product_total': product_total,
+        }
+        return render(request,'ordercomplete.html',context)
+    except (Payment.DoesNotExist, Order.DoesNotExist):
+        return redirect('index')
+    
