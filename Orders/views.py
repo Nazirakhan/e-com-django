@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from Carts.models import CartItem
 from .forms import OrderForm
 from .models import Order, Payment, OrderProduct
@@ -11,6 +11,8 @@ from django.template.loader import render_to_string
 # Create your views here.
 
 import json
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 def payments(request):
     body = json.loads(request.body)
@@ -157,7 +159,6 @@ def place_order(request,total=0, quantity = 0):
 def order_complete(request):
     orderID = request.GET.get('orderID')
     transactionID = request.GET.get('transactionID')
-    count = 0
     try:
         order = Order.objects.get(order_number=orderID, is_ordered=True)
         ordered_products = OrderProduct.objects.filter(order_id=order.id)
@@ -173,10 +174,46 @@ def order_complete(request):
             'transactionID': payment.payment_id,
             'status': payment.status,
             'payment': payment,
-            'count':count,
             'product_total': product_total,
         }
         return render(request,'ordercomplete.html',context)
     except (Payment.DoesNotExist, Order.DoesNotExist):
         return redirect('index')
+    
+
+
+def render_pdf_view(request,orderID, transactionID):
+    order = Order.objects.get(order_number=orderID,is_ordered=True)
+    ordered_products = OrderProduct.objects.filter(order_id=order.id)
+    payment = Payment.objects.get(payment_id = transactionID)
+
+    product_total = 0
+    for product in ordered_products:
+        product_total = product_total + (product.product_price * product.quantity)
+
+
+    template_path = 'pdfdwnd.html'
+    
+    context = {
+            'order':order,
+            'ordered_products' : ordered_products,
+            'transactionID': payment.payment_id,
+            'status': payment.status,
+            'payment': payment,
+            'product_total': product_total,
+        }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{order.order_number}.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
     

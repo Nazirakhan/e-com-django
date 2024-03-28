@@ -59,7 +59,7 @@
             {% for item in cart_items %}
             <tr>
                 <td>
-                    <img src="{{ item.product.images.url }}" alt="" style="width: 50px;">
+                    <img src="{{ item.product.images.path }}" alt="" style="width: 50px;">
                 </td>
                 <td>{{ item.product.product_name }}</td>
                 <td>{% if item.variations.all %}

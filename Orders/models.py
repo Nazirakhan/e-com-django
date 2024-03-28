@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import Account
 from store.models import Product, Variation
+from django.urls import reverse
 
 # Create your models here.
 
@@ -74,3 +75,4 @@ class OrderProduct(models.Model):
     
     def get_total(self):
         return self.product.price * self.quantity
+    
