@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, ReviewRatings
 from Carts.models import CartItem, Cart
 from category.models import Category
+from Orders.models import OrderProduct
 from Carts.views import _cart_id
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
@@ -46,9 +47,20 @@ def product_detail(request, category_slug, product_slug):
     except Exception as e:
         raise e
     
+    try:
+        orderproduct = OrderProduct.objects.filter(user=request.user, product_id=single_product.id).exists()
+    except OrderProduct.DoesNotExist:
+        orderproduct = None
+    
+    reviews = ReviewRatings.objects.filter(product_id=single_product.id,status=True)
+    review_count = reviews.count()
+
     context = {
         'single_product' : single_product,
         'in_cart':in_cart,
+        'orderproduct':orderproduct,
+        'reviews':reviews,
+        'review_count':review_count,
     }
     return render(request,'detail.html', context)
 
