@@ -50,14 +50,15 @@
 
             <div class="col-lg-7 pb-5">
                 <h3 class="font-weight-semi-bold">{{single_product.product_name}}</h3>
-                <div class="d-flex mb-3">
+                <div class="d-flex mb-3">                    
                     <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="far fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
+                        <i class="{% if single_product.averageReview < 0.5 %} far fa-star {% else %} fas fa-star{% if single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-alt {% endif %} {% endif %}"></i>
+                        <i class="{% if single_product.averageReview < 1.5 %} far fa-star {% else %} fas fa-star{% if single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-alt {% endif %} {% endif %}"></i>
+                        <i class="{% if single_product.averageReview < 2.5 %} far fa-star {% else %} fas fa-star{% if single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-alt {% endif %} {% endif %}"></i>
+                        <i class="{% if single_product.averageReview < 3.5 %} far fa-star {% else %} fas fa-star{% if single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-alt {% endif %} {% endif %}"></i>
+                        <i class="{% if single_product.averageReview < 4.5 %} far fa-star {% else %} fas fa-star{% if single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-alt {% endif %} {% endif %}"></i>
                     </div>
+                    
                     {% if review_count == 0 %}
                     <small class="pt-1">(No Reviews Yet)</small>
                     {% elif review_count == 1 %}
@@ -124,7 +125,7 @@
                 <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                     <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
                     <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews ({{review_count}})</a>
+                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews ({{single_product.countReview}})</a>
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
@@ -173,10 +174,10 @@
                     <div class="tab-pane fade" id="tab-pane-3">
                         <div class="row">
                             <div class="col-md-6">
-                                {% if review_count > 1 %}
-                                <h4 class="mb-4">{{review_count}} reviews for "{{single_product.product_name}}"</h4>
+                                {% if single_product.countReview > 1 %}
+                                <h4 class="mb-4">{{single_product.countReview}} reviews for "{{single_product.product_name}}"</h4>
                                 {% else %}
-                                <h4 class="mb-4">{{review_count}} review for "{{single_product.product_name}}"</h4>
+                                <h4 class="mb-4">{{single_product.countReview}} review for "{{single_product.product_name}}"</h4>
                                 {% endif %}
                                 {% for review in reviews %}
                                 <div class="media mb-4">
