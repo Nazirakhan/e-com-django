@@ -7,7 +7,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Invoice with ribbon - Bootdey.com</title>
+        <title>Invoice</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link
             href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -116,9 +116,6 @@
                                     <p class="lead marginbottom">THANK YOU!</p>
                                     <a class="btn btn-primary" type="button" href="{% url 'render_pdf_view' orderID=order.order_number transactionID=transactionID %}">
                                         <i class="fa fa-download"></i> Download Invoice</a>
-                                    <button class="btn btn-primary"
-                                        id="invoice-print"><i
-                                            class="fa fa-download"></i>  Download Invoice</button>
                                     <button class="btn btn-danger"><i
                                             class="fa fa-envelope-o"></i> Mail
                                         Invoice</button>

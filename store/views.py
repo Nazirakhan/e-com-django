@@ -1,11 +1,13 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Product
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, ReviewRatings
 from Carts.models import CartItem, Cart
 from category.models import Category
 from Carts.views import _cart_id
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 from django.db.models import Q
+from .forms import ReviewRatingsForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -64,3 +66,26 @@ def search(request):
         'keyword':keyword
     }
     return render(request,'shop.html',context)
+
+
+def submit_review(request, product_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        try:
+            review = ReviewRatings.objects.get(user__id=request.user.id,product__id=product_id)
+            form = ReviewRatingsForm(request.POST, instance=review)
+            messages.success(request,"Thank you!, your review has been updated successfully.")
+            return redirect(url)
+        except ReviewRatings.DoesNotExist:
+            form = ReviewRatingsForm(request.POST)
+            if form.is_valid():
+                data = ReviewRatings()
+                data.subject = form.cleaned_data['subject']
+                data.rating = form.cleaned_data['rating']
+                data.review = form.cleaned_data['review']
+                data.ip = request.META.get('REMOTE_ADDR')
+                data.product_id = product_id
+                data.user_id = request.user.id
+                data.save()
+                messages.success(request,"Thank you!, your review has been submitted successfully.")
+                return redirect(url)

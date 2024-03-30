@@ -226,11 +226,8 @@
                         .then(data => {
                             // console.log("Success: ",data),
                             // console.log("Transaction Completed"),
-                            setTimeout(() => {
-                                window.location.href = redirect_url + "?orderID=" + data.orderID + "&transactionID=" + data.transactionID
-                            }, 5000);
 
-                            // window.location.href = redirect_url + "?orderID=" + data.orderID + "&transactionID=" + data.transactionID
+                            window.location.href = redirect_url + "?orderID=" + data.orderID + "&transactionID=" + data.transactionID
                         });
                     }
                     // Show a success message to the buyer
