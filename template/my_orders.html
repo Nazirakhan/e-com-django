@@ -1,0 +1,70 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+            <h1 class="font-weight-semi-bold mb-3">Review Your Order and Make Payment</h1>
+            
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+<!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <h4 class="font-weight-semi-bold mb-4">Order Details</h4>
+                <div class="col-lg-12 table-responsive mb-5">
+                <table class="table table-bordered table-hover text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Order #</th>
+                            <th>Billing Name</th>
+                            <th>Phone</th>
+                            <th>Order Total</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        
+                        {% for my_order in my_orders %}
+                        
+                        <tr>
+                            <td class="align-middle"><a href="{% url 'order_complete'%}?orderID={{my_order.order_number}}&transactionID={{my_order.payment.payment_id}}">{{ my_order.order_number }}</a></td>                          
+                            <td class="align-middle">{{ my_order.full_name }}</td>                          
+                            <td class="align-middle">{{my_order.phone}}</td>
+                            <td class="align-middle">&#8360;. {{my_order.order_total | floatformat:2 }}</td>
+                            <td class="align-middle">{{my_order.created_at | date:"M d, Y" }}</td>
+                        </tr>
+                        
+                        {% endfor %}
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                {% include 'include_sidebar.html' %}
+                <!-- <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    </div>
+                    <div class="card-body">
+                        
+                    </div>
+                </div>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                    </div>
+                    
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- Checkout End -->
+    <!-- Include the PayPal JavaScript SDK -->
+
+{% endblock %}

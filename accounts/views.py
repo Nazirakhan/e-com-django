@@ -205,3 +205,11 @@ def resetPassword(request):
             return redirect('resetPassword')
     else:
         return render(request,"reset_password.html")
+    
+
+def my_orders(request):
+    my_orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+    context = {
+       'my_orders':my_orders
+    }
+    return render(request,"my_orders.html", context)

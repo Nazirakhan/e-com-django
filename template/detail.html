@@ -183,7 +183,7 @@
                                 <div class="media mb-4">
                                     <img src="{% static 'img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                     <div class="media-body">
-                                        <h6>{{review.user.full_name}}<small> - <i>{{review.created_at}}</i></small></h6>
+                                        <h6>{{review.user.full_name}}<small> - <i>{{review.updated_at}}</i></small></h6>
                                         <div class="text-primary mb-2">
                                             <i class="{% if review.rating == 0 %} far fa-star {% else %} fas fa-star{% if review.rating == 0.5 %}-half-alt{% elif review.rating < 1 %}-alt {% endif %} {% endif %}"></i>
                                             <i class="{% if review.rating <= 1 %} far fa-star {% else %} fas fa-star{% if review.rating == 1.5 %}-half-alt{% elif review.rating < 2 %}-alt {% endif %} {% endif %}"></i>
