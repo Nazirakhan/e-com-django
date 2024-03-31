@@ -4,7 +4,7 @@
 
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
-            <h1 class="font-weight-semi-bold mb-3">Review Your Order and Make Payment</h1>
+            <h1 class="font-weight-semi-bold mb-3">Order History</h1>
             
         </div>
     </div>
@@ -31,7 +31,7 @@
                         {% for my_order in my_orders %}
                         
                         <tr>
-                            <td class="align-middle"><a href="{% url 'order_complete'%}?orderID={{my_order.order_number}}&transactionID={{my_order.payment.payment_id}}">{{ my_order.order_number }}</a></td>                          
+                            <td class="align-middle"><a href="{% url 'order_complete'%}?orderID={{my_order.order_number}}&transactionID={{my_order.payment.payment_id}}">{{ my_order.order_number }}</a></td>                                                   
                             <td class="align-middle">{{ my_order.full_name }}</td>                          
                             <td class="align-middle">{{my_order.phone}}</td>
                             <td class="align-middle">&#8360;. {{my_order.order_total | floatformat:2 }}</td>
@@ -39,8 +39,7 @@
                         </tr>
                         
                         {% endfor %}
-                        
-                        
+                    </div>              
                     </tbody>
                 </table>
             </div>

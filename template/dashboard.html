@@ -59,7 +59,7 @@
                                     <div class="card-body">
                                         <h6>Total Orders</h6>
                                         <h6>{{order_count}}</h6>
-                                        <a href>View Orders</a>
+                                        <a href="{% url 'my_orders' %}">View Orders</a>
                                     </div>
                                 </div>
                             </div>
@@ -74,21 +74,7 @@
 
         </div>
         <div class="col-lg-4">
-            <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
-                    <h5 class="font-weight-normal m-0">
-                        <a href="{% url 'dashboard' %}">Dashboard</a></h5>
-                </div>
-                <div class="card-header bg-secondary border-0">
-                    <h5 class="font-weight-normal m-0">
-                        <a href="{% url 'my_orders' %}">Order History</a></h5>
-                </div>
-                <div class="card-header bg-secondary border-0">
-                    <h5 class="font-weight-normal m-0">Edit Profile</h5>
-                </div>
-                <div class="card-header bg-secondary border-0">
-                    <h5 class="font-weight-normal m-0">Change Password</h5>
-                </div>
+            {% include 'include_sidebar.html' %}
 
             </div>
         </div>

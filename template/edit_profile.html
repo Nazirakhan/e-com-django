@@ -1,0 +1,90 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 150px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Edit Profile</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{% url 'index' %}">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Edit Profile</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+    <!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="text-center">
+                    <img src="{{profileuser.profile_picture.url}}" width="100" style="border-radius: 10px;" alt="Profile Picture">
+                </div>
+                <div class="mb-4">
+                    <h4 class="font-weight-semi-bold mb-4">Edit</h4>
+                    <form action="{% url 'edit_profile' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>First Name</label>
+                            <!-- <input class="form-control" name="first_name" type="text" placeholder="John" > -->
+                            {{user_form.first_name}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Last Name</label>
+                            <!-- <input class="form-control" name="last_name" type="text" placeholder="Doe"> -->
+                            {{user_form.last_name}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Mobile No</label>
+                            <!-- <input class="form-control" name="phone" type="text" placeholder="+123 456 789" > -->
+                            {{user_form.phone}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Profile Picture</label>
+                            <!-- <input class="form-control" name="email" type="file" placeholder="example@email.com" > -->
+                            {{profile_form.profile_picture}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Address Line 1</label>
+                            <!-- <input class="form-control" name="address_line_1" type="text" placeholder="address1" > -->
+                            {{profile_form.addless_line_1}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Address Line 2</label>
+                            <!-- <input class="form-control" name="address_line_2" type="text" placeholder="addressline1"> -->
+                            {{profile_form.addless_line_2}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Country</label>
+                            {{profile_form.country}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>City</label>
+                            <!-- <input class="form-control" name="city" type="text" placeholder="City" > -->
+                            {{profile_form.city}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>State</label>
+                            <!-- <input class="form-control" name="state" type="text" placeholder="state" > -->
+                            {{profile_form.state}}
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>ZIP Code</label>
+                            <!-- <input class="form-control" name="zip_code" type="text" placeholder="zip code" > -->
+                            {{profile_form.pincode}}
+                        </div>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                {% include 'include_sidebar.html' %}
+            </div>
+        </div>
+    </div>
+    <!-- Checkout End -->
+
+{% endblock %}
