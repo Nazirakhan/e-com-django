@@ -130,14 +130,15 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                             <a href="{% url 'shop' %}" class="nav-item nav-link">Shop</a>
-                            <a href="" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
+                            <!-- <a href="" class="nav-item nav-link">Shop Detail</a> -->
+                            <a href="{% url 'edit_profile' %}"  class="nav-item nav-link">Edit Profile</a>
+                            <!-- <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="{% url 'cart' %}" class="dropdown-item">Shopping Cart</a>
-                                    <!-- <a href="{% url 'checkout' %}" class="dropdown-item">Checkout</a> -->
+                                    <a href="{% url 'checkout' %}" class="dropdown-item">Checkout</a>
                                 </div>
-                            </div>
+                            </div> -->
                             <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
@@ -149,7 +150,7 @@
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{user.first_name}}</a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="{% url 'dashboard' %}" class="dropdown-item">Dashboard</a>
-                                    <a href="#" class="dropdown-item">Profile</a>
+                                    <a href="{% url 'my_orders' %}" class="dropdown-item">My Orders</a>
                                 </div>
                             </div>
                             <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
