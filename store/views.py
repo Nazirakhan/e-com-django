@@ -29,11 +29,15 @@ def shop(request, category_slug=None):
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)
         product_count = products.count()
+
+    for product in products:
+        reviews = ReviewRatings.objects.filter(product_id=product.id,status=True)
     
     context = {
         # 'product':products
         'product':paged_products,
-        'product_count':product_count
+        'product_count':product_count,
+        'reviews':reviews,
     }
     return render(request,'shop.html',context)
 
@@ -55,9 +59,11 @@ def product_detail(request, category_slug, product_slug):
     else:
         orderproduct = None
     
+    # product review
     reviews = ReviewRatings.objects.filter(product_id=single_product.id,status=True)
     review_count = reviews.count()
 
+    # product gallery
     product_gallery = ProductGallery.objects.filter(product_id=single_product.id)
 
     context = {

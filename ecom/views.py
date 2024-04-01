@@ -20,8 +20,8 @@ def index(request):
 # def detail(request):
 #     return render(request,'detail.html')
 
-def cart(request):
-    return render(request,'cart.html')
+# def cart(request):
+#     return render(request,'cart.html')
 
 # def checkout(request):
 #     return render(request,'checkout.html')

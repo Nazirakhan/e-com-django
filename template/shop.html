@@ -210,6 +210,13 @@
                                 <div class="d-flex justify-content-center">
                                     <h6>&#8360;. {{pro.price}}</h6><h6 class="text-muted ml-2"><del>&#8360;. {{pro.price}}</del></h6>
                                 </div>
+                                <div class="text-primary mr-2">
+                                    <i class="{% if pro.averageReview < 0.5 %} far fa-star {% else %} fas fa-star{% if pro.averageReview >= 0.5 and pro.averageReview < 1 %}-half-alt {% endif %} {% endif %}"></i>
+                                    <i class="{% if pro.averageReview < 1.5 %} far fa-star {% else %} fas fa-star{% if pro.averageReview >= 1.5 and pro.averageReview < 2 %}-half-alt {% endif %} {% endif %}"></i>
+                                    <i class="{% if pro.averageReview < 2.5 %} far fa-star {% else %} fas fa-star{% if pro.averageReview >= 2.5 and pro.averageReview < 3 %}-half-alt {% endif %} {% endif %}"></i>
+                                    <i class="{% if pro.averageReview < 3.5 %} far fa-star {% else %} fas fa-star{% if pro.averageReview >= 3.5 and pro.averageReview < 4 %}-half-alt {% endif %} {% endif %}"></i>
+                                    <i class="{% if pro.averageReview < 4.5 %} far fa-star {% else %} fas fa-star{% if pro.averageReview >= 4.5 and pro.averageReview < 5 %}-half-alt {% endif %} {% endif %}"></i>
+                                </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between bg-light border">
                                 <a href="{{pro.get_url}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
