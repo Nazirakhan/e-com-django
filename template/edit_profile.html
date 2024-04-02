@@ -19,7 +19,11 @@
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="text-center">
-                    <img src="{{profileuser.profile_picture.url}}" width="100" style="border-radius: 10px;" alt="Profile Picture">
+                    {% if profileuser.profile_picture %}
+                    <img src="{{ profileuser.profile_picture.url }}" width="100" style="border-radius: 10px;" alt="Profile Picture">
+                    {% else %}
+                        <img src="{% static 'img\default-profile-pic.png' %}" width="100" style="border-radius: 10px;" alt="Default Profile Picture">
+                    {% endif %}
                 </div>
                 <div class="mb-4">
                     <h4 class="font-weight-semi-bold mb-4">Edit</h4>
@@ -49,12 +53,12 @@
                         <div class="col-md-6 form-group">
                             <label>Address Line 1</label>
                             <!-- <input class="form-control" name="address_line_1" type="text" placeholder="address1" > -->
-                            {{profile_form.addless_line_1}}
+                            {{profile_form.address_line_1}}
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Address Line 2</label>
                             <!-- <input class="form-control" name="address_line_2" type="text" placeholder="addressline1"> -->
-                            {{profile_form.addless_line_2}}
+                            {{profile_form.address_line_2}}
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>

@@ -75,17 +75,17 @@ class Account(AbstractBaseUser):
     
 class ProfileUser(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
-    addless_line_1 = models.CharField(max_length=200, blank=True)
-    addless_line_2 = models.CharField(max_length=200, blank=True)
-    profile_picture = models.ImageField(blank=True, upload_to='userProfilePic')
-    city = models.CharField(max_length=20, blank=True)
-    state = models.CharField(max_length=20, blank=True)
-    country = models.CharField(max_length=20, blank=True)
+    address_line_1 = models.CharField(max_length=200, blank=True,null=True)
+    address_line_2 = models.CharField(max_length=200, blank=True,null=True)
+    profile_picture = models.ImageField(blank=True, upload_to='userProfilePic',null=True)
+    city = models.CharField(max_length=20, blank=True,null=True)
+    state = models.CharField(max_length=20, blank=True,null=True)
+    country = models.CharField(max_length=20, blank=True, null=True)
     pincode = models.IntegerField(default=751002, blank=True)
 
     def __str__(self):
         return self.user.first_name
     
     def full_address(self):
-        return f"{self.addless_line_1} {self.addless_line_2}"
+        return f"{self.address_line_1} {self.address_line_2}"
     

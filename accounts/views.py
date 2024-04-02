@@ -34,6 +34,9 @@ def register(request):
             user.phone = phone
             user.save()
 
+            # Create a ProfileUser object associated with the new user
+            profile_user = ProfileUser.objects.create(user=user)
+
             #User Activation
             current_site = get_current_site(request)
             mail_subject = "Activate your account"
@@ -219,6 +222,7 @@ def my_orders(request):
 @login_required(login_url='login')
 def edit_profile(request):
     profileuser = get_object_or_404(ProfileUser, user=request.user)
+    # profileuser, created = ProfileUser.objects.get_or_create(user=request.user)
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileUserForm(request.POST, request.FILES, instance=profileuser)
