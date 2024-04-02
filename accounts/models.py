@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from django.dispatch import receiver
+from django.shortcuts import get_object_or_404
 
 # Create your models here.
 # Model for superadmin
@@ -88,4 +90,20 @@ class ProfileUser(models.Model):
     
     def full_address(self):
         return f"{self.address_line_1} {self.address_line_2}"
+    
+    def save(self, *args, **kwargs):
+        if self.id:
+            existing = get_object_or_404(ProfileUser,id=self.id)
+            if existing.profile_picture != self.profile_picture:
+                existing.profile_picture.delete(save=False)
+
+        super(ProfileUser, self).save(*args, **kwargs)
+        
+    @receiver(models.signals.pre_delete, sender="accounts.ProfileUser")
+    def server_delete_image(sender, instance, **kwargs):
+        for field in instance._meta.fields:
+            if field.name=="profile_picture":
+                file = getattr(instance,field.name)
+                if file:
+                    file.delete(save=False)
     
