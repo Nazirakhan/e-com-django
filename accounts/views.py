@@ -5,7 +5,6 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from Orders.models import Order
-import os
 
 # Verification Email
 from django.contrib.sites.shortcuts import get_current_site
@@ -223,7 +222,6 @@ def my_orders(request):
 @login_required(login_url='login')
 def edit_profile(request):
     profileuser = get_object_or_404(ProfileUser, user=request.user)
-    # profileuser, created = ProfileUser.objects.get_or_create(user=request.user)
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileUserForm(request.POST, request.FILES, instance=profileuser)
